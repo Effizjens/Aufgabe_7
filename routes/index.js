@@ -31,7 +31,6 @@ router.get('/load', function(req, res) {
   var json;
   collection.find({"name": req.query.name},{},function(e,docs){
     // text is the json-string
-    console.log(docs.length);
     res.send({"route":docs[0].json});
   });
 });

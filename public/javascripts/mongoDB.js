@@ -3,7 +3,9 @@ ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
 */
 window.onload = function() {
   var url = new URL(window.location.href);
-  loadFromDatabase(url.searchParams.get("name"));
+  if(url.searchParams.get("name") != null){
+    loadFromDatabase(url.searchParams.get("name"));
+  }
 };
 
 /**
