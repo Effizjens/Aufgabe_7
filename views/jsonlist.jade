@@ -15,5 +15,5 @@ block content
         each object, i in jsonlist
           tr
             th 
-              a(href="/" + object._id)= object.name
+              a(href="/?name=" + object.name)= object.name
             th= object.json

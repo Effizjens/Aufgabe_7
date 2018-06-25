@@ -24,6 +24,17 @@ router.get('/jsonlist', function(req, res) {
     });
 });
 
+/* ssssssssssssssssssssssssssssss */
+router.get('/load', function(req, res) {
+  var db = req.db;
+  var collection = db.get('geojsons');
+  var json;
+  collection.find({"name": req.query.name},{},function(e,docs){
+    // text is the json-string
+    console.log(docs.length);
+    res.send({"route":docs[0].json});
+  });
+});
 
 
 /*

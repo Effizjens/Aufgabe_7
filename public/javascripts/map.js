@@ -63,34 +63,7 @@ class databasobject {
 
 }
 
-/**
-* function is called with the 'save to database'-Button and makes an AJAX
-* post request with the data to later store it in the database
-*
-*/
-function saveToDatabase() {
-  // get value of the textfield that should contain the name of the figures
-  var textfield = document.getElementById("GeoJSONinput").value;
 
-  if(textfield.length==0) {
-    JL("mylogger").error("Data was not sent to database");
-    alert("Error: Please fill in a name");
-  }  else {
-    var data = getAllPoint();
-
-    // create new databaseobject-object and later will the param json
-    var neu = new databasobject(textfield, "");
-    neu.json = JSON.stringify(data);
-    JL("mylogger").info("Data was sent to database");
-    alert('Object successfull saved!');
-    $.ajax({
-      type: 'POST',
-      data: neu,
-      url: "./start",
-
-    });
-  }
-}
 
 /**
 @desc ÜBergibt alle wegpunkt
