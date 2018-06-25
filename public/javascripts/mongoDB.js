@@ -55,3 +55,29 @@ function loadFromDatabase(nameVonObejkt){
     }
   });
 }
+
+/**
+*sssssssssssssssssssssssss
+*@param nameVonObejkt Name von dem Objekt
+*/
+function loadAddRoute(){
+  var inputeValue = $( "#addRoute" ).val();
+  $.ajax({
+    type: 'GET',
+    data: {"name":inputeValue},
+    url: "./load",
+    success: function(result){
+      var route = JSON.parse(result.route);
+      console.log(control._routes["0"]);
+      var control2 = L.Routing.control({
+        router: L.routing.mapbox('pk.eyJ1IjoiZWZmaXpqZW5zIiwiYSI6ImNqaWFkbWsxMjB1bzgzdmxtZjcxb2RrMWcifQ.By1C8AELYfvq1EpQeOVMxw'),
+        waypoints: [
+          L.latLng(route[0].lat, route[0].lng),
+          L.latLng(route[1].lat, route[1].lng)
+        ],
+        routeWhileDragging: false
+      });
+      L.Routing.Line(control._routes["0"]);
+    }
+  });
+}

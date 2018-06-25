@@ -23,6 +23,10 @@ block content
           a#delete.btn.btn-danger(href='#') Clear feature in map
         br
         p
+          input#addRoute.formcontrol(name='name', placeholder='Add RouteName', type='text')
+          button#load.btn.btn-success(type='submit', onclick='loadAddRoute()') Load add route
+        p
+        p
           a.btn.btn-warning(href='/jsonlist') Show database objects
       .col-md-8
         #map
