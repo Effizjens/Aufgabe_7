@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+//Einbinden von JSNLOG für den Server
+var JL = require('jsnlog').JL;
 
 // New Code
 var mongo = require('mongodb');
@@ -54,5 +56,8 @@ var port = 5000;
 app.listen(port, function () {
   console.log('Server now listening on port ' + port + '.');
 });
+
+//Beispiel Log
+JL().info("Server gestartet");
 
 module.exports = app;
