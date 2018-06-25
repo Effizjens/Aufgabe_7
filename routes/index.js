@@ -44,25 +44,6 @@ router.post('/start', function(req, res) {
 
 });
 
-/*
-* render all of the url-request that could be matched to others
-* (those with the id in it when selecting object of database)
-* Render it with oject.jade and pass the variables title, text and name
-*/
-router.get('/:id', function(req, res) {
-  var db = req.db;
-  var collection = db.get('geojsons');
-  var db = req.db;
-  var collection = db.get('geojsons');
-  var json;
-  collection.find({"_id": req.params.id},{},function(e,docs){
-      // text is the json-string
-      res.render('object', { title: 'Object: ' + docs[0].name, id: req.params.id,
-       text: JSON.stringify(docs[0].json), name: docs[0].name
-     });
-  });
-
-});
 
 // Ensure that the JSON objects received from the client get parsed correctly.
 router.use(bodyParser.json())

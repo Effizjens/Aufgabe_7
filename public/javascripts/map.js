@@ -23,19 +23,19 @@ JL("mylogger").info("Und damit es nicht doof aussieht, kommt Perry nicht in die 
 // position of Muenster
 
 var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib }),
-    map = new L.Map('map', { center: new L.LatLng(51.9606649, 7.6261347), zoom: 13 }),
-    drawnItems = L.featureGroup().addTo(map);
+osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib }),
+map = new L.Map('map', { center: new L.LatLng(51.9606649, 7.6261347), zoom: 13 }),
+drawnItems = L.featureGroup().addTo(map);
 L.control.layers({ "OSM": osm.addTo(map)}).addTo(map);
 
-L.Routing.control({
-    router: L.routing.mapbox('pk.eyJ1IjoiZWZmaXpqZW5zIiwiYSI6ImNqaWFkbWsxMjB1bzgzdmxtZjcxb2RrMWcifQ.By1C8AELYfvq1EpQeOVMxw'),
-    waypoints: [
-        L.latLng(57.74, 11.94),
-        L.latLng(57.6792, 11.949)
-    ],
-    routeWhileDragging: true
+var control = L.Routing.control({
+  router: L.routing.mapbox('pk.eyJ1IjoiZWZmaXpqZW5zIiwiYSI6ImNqaWFkbWsxMjB1bzgzdmxtZjcxb2RrMWcifQ.By1C8AELYfvq1EpQeOVMxw'),
+  waypoints: [
+    L.latLng(57.74, 11.94),
+    L.latLng(57.6792, 11.949)
+  ],
+  routeWhileDragging: true
 }).addTo(map);
 
 
@@ -45,7 +45,7 @@ L.Routing.control({
 * all drawn layers get cleared
 */
 document.getElementById('delete').onclick = function(e) {
-    drawnItems.clearLayers();
+  drawnItems.clearLayers();
 }
 
 /*
@@ -69,25 +69,56 @@ class databasobject {
 *
 */
 function saveToDatabase() {
-      // get value of the textfield that should contain the name of the figures
-      var textfield = document.getElementById("GeoJSONinput").value;
+  // get value of the textfield that should contain the name of the figures
+  var textfield = document.getElementById("GeoJSONinput").value;
 
-      if(textfield.length==0) {
-          JL("mylogger").error("Data was not sent to database");
-          alert("Error: Please fill in a name");
-      }  else {
-          var data = drawnItems.toGeoJSON();
+  if(textfield.length==0) {
+    JL("mylogger").error("Data was not sent to database");
+    alert("Error: Please fill in a name");
+  }  else {
+    var data = drawnItems.toGeoJSON();
 
-          // create new databaseobject-object and later will the param json
-          var neu = new databasobject(textfield, "");
-          neu.json = JSON.stringify(data);
-          JL("mylogger").info("Data was sent to database");
-          alert('Object successfull saved!');
-          $.ajax({
-              type: 'POST',
-              data: neu,
-              url: "./start",
+    // create new databaseobject-object and later will the param json
+    var neu = new databasobject(textfield, "");
+    neu.json = JSON.stringify(data);
+    JL("mylogger").info("Data was sent to database");
+    alert('Object successfull saved!');
+    $.ajax({
+      type: 'POST',
+      data: neu,
+      url: "./start",
 
-          });
-        }
+    });
+  }
 }
+
+function createButton(label, container) {
+  var btn = L.DomUtil.create('button', '', container);
+  btn.setAttribute('type', 'button');
+  btn.innerHTML = label;
+  return btn;
+}
+
+map.on('click', function(e) {
+
+  console.log(control.waypoints);
+
+  var container = L.DomUtil.create('div'),
+  startBtn = createButton('Start from this location', container),
+  destBtn = createButton('Go to this location', container);
+
+  L.popup()
+  .setContent(container)
+  .setLatLng(e.latlng)
+  .openOn(map);
+
+  L.DomEvent.on(startBtn, 'click', function() {
+    control.spliceWaypoints(0, 1, e.latlng);
+    map.closePopup();
+  });
+
+  L.DomEvent.on(destBtn, 'click', function() {
+    control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
+    map.closePopup();
+  });
+});
