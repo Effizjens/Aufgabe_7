@@ -76,7 +76,7 @@ function saveToDatabase() {
     JL("mylogger").error("Data was not sent to database");
     alert("Error: Please fill in a name");
   }  else {
-    var data = drawnItems.toGeoJSON();
+    var data = getAllPoint();
 
     // create new databaseobject-object and later will the param json
     var neu = new databasobject(textfield, "");
@@ -92,6 +92,19 @@ function saveToDatabase() {
   }
 }
 
+/**
+@desc ÜBergibt alle wegpunkt
+@return Array aus Wegpunkten
+*/
+function getAllPoint(){
+  var returnArray = [];
+      for (var i = 0; i < control.getWaypoints().length; i++) {
+        returnArray.push(control.getWaypoints()[i].latLng);
+      };
+    return returnArray;
+}
+
+
 function createButton(label, container) {
   var btn = L.DomUtil.create('button', '', container);
   btn.setAttribute('type', 'button');
@@ -100,8 +113,6 @@ function createButton(label, container) {
 }
 
 map.on('click', function(e) {
-
-  console.log(control.waypoints);
 
   var container = L.DomUtil.create('div'),
   startBtn = createButton('Start from this location', container),
