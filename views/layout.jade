@@ -13,7 +13,18 @@ html
             a(href='/') Create new object
           li
             a(href='/jsonlist') Database objects
-
+            
+      // jQuery & jQuery UI
+      script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+      script(src='http://code.jquery.com/ui/1.11.2/jquery-ui.min.js')
+      link(rel='stylesheet', href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')
+      // Bootstrap
+      script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+      link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+      //lRM
+      link(rel='stylesheet', href='https://unpkg.com/leaflet@1.2.0/dist/leaflet.css')
+      link(rel='stylesheet', href='/stylesheets/leaflet-routing-machine.css')
+      
   body
     block content
     hr 

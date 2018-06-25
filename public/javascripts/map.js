@@ -18,13 +18,10 @@ JL("perry").setOptions({"appenders": [consoleAppender]});
 //Beispiel Kommentar
 JL("mylogger").info("Huhu, ich bin Perry und wenn du mich groß genug machst, sehe ich gut aus!");
 JL("mylogger").info("Und damit es nicht doof aussieht, kommt Perry nicht in die Server Konsole!");
-//Beispiel Perry
-JL("perry").info("    ```~~--..,,,__\n _,,.-----------;;..;;,__,,,..---‘‘‘‘‘‘‘‘‘‘´´´´´´´´\\\n                   /                                \\\n                  /                              _,.-~°´´°~-.,_\n                 /                              /   _.,-*-.,_  \\\n                /   _,.-~°´´°~-.,_             /   /     ,-, \\  \\\n               /  /               \\            |   |    ´-´  |   |\n              /  /  _.,-*-.,_      \\           \\   \\         /   /\n             /   | /     ,-, \\     |         A  \\   `°-:_:-°`   /\n            /    \\ |    ´-´  |     /        / \\  `°~-:.,_,.:-~°`\n           /      \\\\         /    /        /   \\          \\\n          /        `°~-:.,_,.:-~°`        /     \\          \\     _.,;‘\\\n         (                               /       \\__  __,,,.!--~*      \\\n          \\                             /      ~``  ``                  )\n           \\                           /                               /\n            \\                         {        ______            _,.-~‘\n             \\                         \\             ‘-;,,,..--;~~‘'\n              \\                         \\                /    \\\n               \\                         ‘*--.,,__,,.--*‘     \\\n                \\                                              \\\n                 \\                                             \\ "
-);
 
 // create the basic function of the map and a layer (OSM) and a standard
 // position of Muenster
-var drawnItems = new L.FeatureGroup();
+
 var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib }),
@@ -32,30 +29,14 @@ var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     drawnItems = L.featureGroup().addTo(map);
 L.control.layers({ "OSM": osm.addTo(map)}).addTo(map);
 
-// add draw toolbar
-map.addControl(new L.Control.Draw({
-  edit: {
-      featureGroup: drawnItems,
-      poly: {
-          allowIntersection: false
-      }
-  },
-  draw: {
-      polygon: {
-          allowIntersection: false,
-          showArea: true
-      }
-  }
-}));
-
-map.on(L.Draw.Event.CREATED, function (event) {
-    var layer = event.layer;
-    drawnItems.addLayer(layer);
-});
-
-map.on('draw:created', function(e) {
-    drawnItems.addLayer(e.layer);
-});
+L.Routing.control({
+    router: L.routing.mapbox('pk.eyJ1IjoiZWZmaXpqZW5zIiwiYSI6ImNqaWFkbWsxMjB1bzgzdmxtZjcxb2RrMWcifQ.By1C8AELYfvq1EpQeOVMxw'),
+    waypoints: [
+        L.latLng(57.74, 11.94),
+        L.latLng(57.6792, 11.949)
+    ],
+    routeWhileDragging: true
+}).addTo(map);
 
 
 /**
