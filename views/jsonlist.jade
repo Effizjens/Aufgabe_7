@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  // jQuery & jQuery UI
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  script(src='http://code.jquery.com/ui/1.11.2/jquery-ui.min.js')
+  link(rel='stylesheet', href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')
+  // Bootstrap
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+  h1 These are our database objects
+  h5 Click on one of the names
+  a(href="/")
+    button.btn.btn-success(type="button") Create new object on map
+  p 
+    table.table
+      thead
+        tr
+          th name
+          th JSON
+      tbody
+        each object, i in jsonlist
+          tr
+            th 
+              a(href="/" + object._id)= object.name
+            th= object.json

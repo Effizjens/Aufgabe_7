@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title= title
+    script(src='javascripts/jsnlog.min.js')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    nav.navbar.navbar-default
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href='/') Task 6
+        ul.nav.navbar-nav
+          li
+            a(href='/') Create new object
+          li
+            a(href='/jsonlist') Database objects
+
+  body
+    block content
+    hr 
+    footer @author: Lia Kirsch, Benjamin Dietz
+    
